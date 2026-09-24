@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" style="color-scheme: light;"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nikola Stojanović — Video Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@1,600&amp;family=Archivo+Black&amp;family=Manrope:wght@400;500;600;700;800&family=Nunito:wght@700;800&amp;display=swap" rel="stylesheet">
+<style>
+    :root {
+        --bg: #101820;
+        --bg-outer: #0B1218;
+        --card-bg: #0B1218;
+        --about-bg: #2E5372;
+        --surface: #172230;
+        --text: #E8EEF3;
+        --text-secondary: #8CA3B3;
+        --accent: #7FB3A0;
+        --hairline: #253645;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg-outer);
+    color: var(--text);
+    font-family: 'Manrope', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .center-panel {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: calc(50% - 590px);
+    right: calc(50% - 590px);
+    background: var(--bg);
+    z-index: -2;
+  }
+  @media (max-width: 1300px) {
+    .center-panel { left: 0; right: 0; }
+  }
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+
+  /* Header */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 48px;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  .header-bar {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 10;
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .brand {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  nav { display: flex; align-items: center; }
+  nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    margin-left: 24px;
+    transition: color .2s ease;
+  }
+  nav a:hover, nav a:focus-visible { color: var(--accent); }
+  .edit-toggle {
+    margin-left: 24px;
+    background: none;
+    border: 1px solid var(--hairline);
+    color: var(--text-secondary);
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 7px 14px;
+    cursor: pointer;
+    display: none;
+  }
+  .edit-toggle.visible { display: inline-block; }
+  .edit-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .edit-toggle.active { background: var(--accent); color: #0B120E; border-color: var(--accent); }
+
+  /* Hero quote */
+  .about-wrap {
+    background: var(--about-bg);
+    padding: 0 48px;
+    margin: 0 -48px;
+  }
+  .hero {
+    padding: 96px 0 48px;
+    border-bottom: 1px solid rgba(232, 238, 243, 0.12);
+  }  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-style: italic;
+    font-size: clamp(38px, 5.8vw, 72px);
+    line-height: 1.15;
+    margin: 0 0 48px;
+    max-width: 20ch;
+    letter-spacing: -0.01em;
+  }
+
+  /* Section labels */
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 12px;
+    margin: 0 0 4px;
+  }
+  .section-head h2 {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    margin: 0;
+  }
+  .section-head span {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  /* About */
+  .about { padding: 40px 0 64px; }
+  .about-heading {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: clamp(30px, 4vw, 40px);
+    color: var(--text);
+    text-decoration: underline;
+    text-underline-offset: 6px;
+    margin: 0 0 24px;
+  }
+  .about p {
+    font-size: 22px;
+    line-height: 1.6;
+    color: var(--text);
+    max-width: 60ch;
+    margin: 16px 0 0;
+  }
+  .about p:first-of-type { margin-top: 0; }
+    .about .cta-line {
+        font-family: 'Nunito Bold', sans-serif;
+        color: var(--text);
+        font-weight: 400;
+        font-size: clamp(55px, 3.6vw, 38px);
+        text-transform: uppercase;
+        letter-spacing: 0.01em;
+        text-align: center;
+        max-width: none;
+        margin-top: 60px;
+    }
+
+  /* Projects */
+  .projects {
+    background: #FFFFFF;
+    border: 1px solid var(--hairline);
+    padding: 40px 48px 48px;
+    margin: 0 -48px;
+    color: #16222B;
+  }
+  .projects .section-head { border-bottom-color: #D9E2E8; }
+  .projects .section-head h2 {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 20px;
+    color: #16222B;
+  }
+  .projects .section-head span { color: #7C8A93; }
+  .category-head {
+    font-size: 22px;
+    color: #2F5C4C;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    margin: 48px 0 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .category-head:first-of-type { margin-top: 28px; }
+  .add-video-btn {
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2F5C4C;
+    background: #F2F5F7;
+    border: 1px solid #D9E2E8;
+    padding: 6px 14px;
+    cursor: pointer;
+    display: none;
+  }
+  body.edit-mode .add-video-btn { display: inline-block; }
+  .add-video-btn:hover { border-color: #2F5C4C; }
+  .frame {
+    display: grid;
+    grid-template-columns: 56px minmax(280px, 420px) 1fr;
+    gap: 28px;
+    padding: 32px 0;
+    border-bottom: 1px solid #D9E2E8;
+    align-items: start;
+  }
+  .frame:last-child { border-bottom: none; }
+  .frame-media.empty {
+    border-style: dashed;
+    color: #7C8A93;
+    opacity: 0.7;
+  }
+  .frame-body { padding-top: 4px; }
+  .timecode {
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    color: #7C8A93;
+    font-variant-numeric: tabular-nums;
+    padding-top: 4px;
+  }
+  .frame-media {
+    aspect-ratio: 16/9;
+    width: 100%;
+    background: #F2F5F7;
+    border: 1px solid #D9E2E8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7C8A93;
+    font-size: 13px;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    text-decoration: none;
+    transition: filter .15s ease;
+  }
+  a.frame-media:hover { filter: brightness(0.9); }
+  .play-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(16, 24, 32, 0.75);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    padding-left: 3px;
+  }
+
+  .frame-media video, .frame-media iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    object-fit: cover;
+  }
+  .frame-title {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 19px;
+    margin: 0 0 6px;
+    color: #16222B;
+  }
+  .frame-desc {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: #5B7484;
+    margin: 0 0 10px;
+    max-width: 60ch;
+  }
+
+  /* Edit-mode form fields (inside white projects panel) */
+  .field-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #7C8A93;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 4px;
+    display: block;
+  }
+  .edit-field {
+    width: 100%;
+    font-family: 'Manrope', sans-serif;
+    border: 1px solid #D9E2E8;
+    background: #FFFFFF;
+    color: #16222B;
+    padding: 8px 10px;
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  .edit-field.title-field { font-size: 17px; font-weight: 700; }
+  textarea.edit-field { resize: vertical; min-height: 54px; }
+  .remove-frame-btn {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    color: #B0473E;
+    background: none;
+    border: 1px solid #E6C9C6;
+    padding: 5px 12px;
+    cursor: pointer;
+  }
+  .remove-frame-btn:hover { background: #FBEEED; }
+  .save-bar {
+    display: none;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 24px;
+    margin-top: 8px;
+    border-top: 1px solid #D9E2E8;
+  }
+  body.edit-mode .save-bar { display: flex; }
+  .save-bar button {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 1px solid #D9E2E8;
+  }
+  .save-bar .save-btn { background: #2F5C4C; color: #fff; border-color: #2F5C4C; }
+  .save-bar .save-btn:disabled { opacity: 0.6; cursor: default; }
+  .save-status {
+    font-size: 13px;
+    color: #7C8A93;
+    align-self: center;
+    margin-right: auto;
+  }
+
+  /* Contact */
+  .contact { padding: 48px 0 80px; }
+  .contact-lead {
+    font-size: 16px;
+    color: var(--text);
+    margin: 0 0 18px;
+  }
+  .contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .contact-links a {
+    color: var(--text);
+    text-decoration: none;
+    border: 1px solid var(--hairline);
+    padding: 10px 18px;
+    font-size: 14px;
+    transition: border-color .2s ease, color .2s ease;
+  }
+  .contact-links a:hover, .contact-links a:focus-visible {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  footer {
+    border-top: 1px solid var(--hairline);
+    padding: 20px 0 40px;
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 900px) {
+    .frame { grid-template-columns: 1fr; }
+    .timecode { padding-top: 0; }
+  }
+  @media (max-width: 560px) {
+    .wrap { padding: 0 20px; }
+    .about-wrap { margin: 0 -20px; padding: 0 20px; }
+    .projects { margin: 0 -20px; padding: 32px 20px 40px; }
+    nav a { margin-left: 14px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+
+  /* Decorative edge guides — video-monitor safe-frame marks */
+  .edge-guide {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--hairline);
+    z-index: -1;
+  }
+  .edge-guide.left { left: calc(50% - 590px); }
+  .edge-guide.right { right: calc(50% - 590px); }
+  .corner-mark {
+    position: fixed;
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--accent);
+    opacity: 0.5;
+    z-index: -1;
+  }
+  .corner-mark.tl { top: 24px; left: calc(50% - 590px - 9px); border-right: none; border-bottom: none; }
+  .corner-mark.tr { top: 24px; right: calc(50% - 590px - 9px); border-left: none; border-bottom: none; }
+  .corner-mark.bl { bottom: 24px; left: calc(50% - 590px - 9px); border-right: none; border-top: none; }
+  .corner-mark.br { bottom: 24px; right: calc(50% - 590px - 9px); border-left: none; border-top: none; }
+
+  @media (max-width: 1300px) {
+    .edge-guide, .corner-mark { display: none; }
+  }
+</style>
+</head>
+<body class="">
+
+<div class="center-panel"></div>
+<div class="edge-guide left"></div>
+<div class="edge-guide right"></div>
+<div class="corner-mark tl"></div>
+<div class="corner-mark tr"></div>
+<div class="corner-mark bl"></div>
+<div class="corner-mark br"></div>
+
+<div class="header-bar">
+  <header>
+    <div class="brand">Nikola Stojanović</div>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#contact">Contact</a>
+      <button class="edit-toggle visible" id="editToggle" type="button">Exit edit mode</button>
+    </nav>
+  </header>
+</div>
+
+<div class="wrap">
+  <div class="about-wrap">
+    <section class="hero">
+      <h1>Doing all the dirty work to make the edit clean.</h1>
+    </section>
+
+    <section class="about" id="about">
+      <h2 class="about-heading">About Me</h2>
+      <p>Hi, my name is Nikola. I'm an 18-year-old aspiring video editor, eager for a chance to show and help with his work.</p>
+      <p>I can do shorts or long-form depending on your needs, and will deliver.</p>
+      <p>I do my work in Premiere Pro and After Effects. Everything I do in my edits is AI-free, the way I think it should be.</p>
+      <p class="cta-line">Check my work below</p>
+    </section>
+  </div>
+
+  <section class="projects" id="work">
+    <div class="section-head">
+      <h2>Selected work</h2>
+      <span>Videos to be added</span>
+    </div>
+
+    <div id="work-list"><div class="category-head">Talking Head<button type="button" class="add-video-btn" data-add-cat="0">+ Add video</button></div><div class="frame"><div class="timecode">00:01</div><div class="frame-media empty">Video coming soon</div><div class="frame-body"><h3 class="frame-title">Marko V on YouTube Channel growth</h3><p class="frame-desc">Short line on the brief, the footage, and the edit approach for this piece.</p></div></div><div class="frame"><div class="timecode">00:02</div><div class="frame-media empty">Video coming soon</div><div class="frame-body"><h3 class="frame-title">Project title</h3><p class="frame-desc">Short line on the brief, the footage, and the edit approach for this piece.</p></div></div><div class="category-head">Podcast Clips<button type="button" class="add-video-btn" data-add-cat="1">+ Add video</button></div><div class="frame"><div class="timecode">00:03</div><div class="frame-media empty">Video coming soon</div><div class="frame-body"><h3 class="frame-title">Project title</h3><p class="frame-desc">Short line on the brief, the footage, and the edit approach for this piece.</p></div></div><div class="frame"><div class="timecode">00:04</div><div class="frame-media empty">Video coming soon</div><div class="frame-body"><h3 class="frame-title">Project title</h3><p class="frame-desc">Short line on the brief, the footage, and the edit approach for this piece.</p></div></div><div class="category-head">Voiceovers<button type="button" class="add-video-btn" data-add-cat="2">+ Add video</button></div><div class="frame"><div class="timecode">00:05</div><div class="frame-media empty">Video coming soon</div><div class="frame-body"><h3 class="frame-title">Project title</h3><p class="frame-desc">Short line on the brief, the footage, and the edit approach for this piece.</p></div></div><div class="frame"><div class="timecode">00:06</div><div class="frame-media empty">Video coming soon</div><div class="frame-body"><h3 class="frame-title">Project title</h3><p class="frame-desc">Short line on the brief, the footage, and the edit approach for this piece.</p></div></div></div>
+
+    <div class="save-bar">
+      <span class="save-status" id="saveStatus"></span>
+      <button type="button" class="save-btn" id="saveBtn">Save changes</button>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <p class="contact-lead">If you like what you're seeing, contact me via</p>
+    <div class="contact-links">
+      <a href="https://wa.me/0612481680">WhatsApp — 0612481680</a>
+      <a href="mailto:stojanovicnikola057@gmail.com">Email — stojanovicnikola057@gmail.com</a>
+    </div>
+  </section>
+
+  <footer>
+    © 2026 Nikola Stojanović. Built and edited by hand.
+  </footer>
+</div>
+
+<script id="site-data" type="application/json">
+[{"category": "Talking Head", "frames": [{"embed": "https://youtu.be/LvD2oZ6Kz14", "title": "Marko V on YouTube Channel growth", "desc": "Short line on the brief, the footage, and the edit approach for this piece."}, {"embed": "", "title": "Project title", "desc": "Short line on the brief, the footage, and the edit approach for this piece."}]}, {"category": "Podcast Clips", "frames": [{"embed": "https://youtube.com/shorts/yP5ZlH5Jxfk", "title": "Kenny Beecham podcast clip", "desc": "Kenny talks about wanting to witness prime Shaq."}, {"embed": "https://youtube.com/shorts/bvpu2qzLCjU", "title": "Numbers on the Board clip", "desc": "The boys talk about the imminent Giannis trade and the defensive greatness of the team."}]}, {"category": "Voiceovers", "frames": [{"embed": "https://youtu.be/nsanLKSmwhY", "title": "Strucnjak JJBA Stand names origin (SERBIAN)", "desc": "Strucnjak talks about how Stands in earlier parts of the anime got their names."}, {"embed": "https://youtube.com/shorts/MMTGNaivNGc", "title": "SuperMax would you rather (SERBIAN)", "desc": "A simple would you rather about Minecraft dilemmas."}]}, {"category": "MultiCam setup videos", "frames": [{"embed": "https://youtu.be/LvD2oZ6Kz14", "title": "Momchadija plays Box of Lies", "desc": "One person gets an item in a box, and decides if they want to lie to their opponent about the thing they got. The other player will ask them questions about the item, and at the end decide if the person with the item was lying or not. Whoever ends up being right gets the point."}, {"embed": "", "title": "Project title", "desc": "Short line on the brief, the footage, and the edit approach for this piece."}]}]
+</script>
+
+<script>
+(function () {
+  var siteData = JSON.parse(document.getElementById('site-data').textContent);
+  var editMode = false;
+  var canEdit = false;
+  var dirty = false;
+
+  function getVideoInfo(url) {
+    if (!url) return null;
+    url = url.trim();
+    var yt = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{6,})/);
+    if (yt) return { thumb: 'https://img.youtube.com/vi/' + yt[1] + '/hqdefault.jpg', watch: 'https://www.youtube.com/watch?v=' + yt[1], embed: 'https://www.youtube-nocookie.com/embed/' + yt[1] + '?autoplay=1' };
+    var vim = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+    if (vim) return { thumb: 'https://vumbnail.com/' + vim[1] + '.jpg', watch: 'https://vimeo.com/' + vim[1], embed: 'https://player.vimeo.com/video/' + vim[1] + '?autoplay=1' };
+    return null;
+  }
+
+  function esc(s) {
+    var d = document.createElement('div');
+    d.textContent = s || '';
+    return d.innerHTML;
+  }
+
+  function frameNumber(catIndex, frameIndex) {
+    var n = 0;
+    for (var i = 0; i < catIndex; i++) n += siteData[i].frames.length;
+    n += frameIndex + 1;
+    return '00:' + (n < 10 ? '0' + n : n);
+  }
+
+  function render() {
+    var list = document.getElementById('work-list');
+    var html = '';
+    siteData.forEach(function (cat, ci) {
+      html += '<div class="category-head">' + esc(cat.category);
+      html += '<button type="button" class="add-video-btn" data-add-cat="' + ci + '">+ Add video</button></div>';
+      cat.frames.forEach(function (f, fi) {
+        var tc = frameNumber(ci, fi);
+        var vid = getVideoInfo(f.embed);
+        if (editMode) {
+          html += '<div class="frame">';
+          html += '<div class="timecode">' + tc + '</div>';
+          html += '<div>';
+          if (vid) {
+            html += '<a class="frame-media" href="' + vid.watch + '" target="_blank" rel="noopener" style="background-image:url(\'' + vid.thumb + '\')"><span class="play-btn">&#9658;</span></a>';
+          } else {
+            html += '<div class="frame-media empty">No video yet</div>';
+          }
+          html += '<label class="field-label">YouTube / Vimeo link</label>';
+          html += '<input class="edit-field" type="text" placeholder="Paste a YouTube or Vimeo link" value="' + esc(f.embed) + '" data-field="embed" data-cat="' + ci + '" data-frame="' + fi + '">';
+          html += '</div>';
+          html += '<div class="frame-body">';
+          html += '<label class="field-label">Title</label>';
+          html += '<input class="edit-field title-field" type="text" value="' + esc(f.title) + '" data-field="title" data-cat="' + ci + '" data-frame="' + fi + '">';
+          html += '<label class="field-label">Description</label>';
+          html += '<textarea class="edit-field" data-field="desc" data-cat="' + ci + '" data-frame="' + fi + '">' + esc(f.desc) + '</textarea>';
+          html += '<button type="button" class="remove-frame-btn" data-remove-cat="' + ci + '" data-remove-frame="' + fi + '">Remove this video</button>';
+          html += '</div></div>';
+        } else {
+          html += '<div class="frame">';
+          html += '<div class="timecode">' + tc + '</div>';
+          if (vid) {
+            html += '<a class="frame-media" href="' + vid.watch + '" target="_blank" rel="noopener" style="background-image:url(\'' + vid.thumb + '\')"><span class="play-btn">&#9658;</span></a>';
+          } else {
+            html += '<div class="frame-media empty">Video coming soon</div>';
+          }
+          html += '<div class="frame-body">';
+          html += '<h3 class="frame-title">' + esc(f.title) + '</h3>';
+          html += '<p class="frame-desc">' + esc(f.desc) + '</p>';
+          html += '</div></div>';
+        }
+      });
+    });
+    list.innerHTML = html;
+
+    if (editMode) {
+      list.querySelectorAll('.edit-field').forEach(function (el) {
+        el.addEventListener('input', function () {
+          var ci = +el.dataset.cat, fi = +el.dataset.frame, field = el.dataset.field;
+          siteData[ci].frames[fi][field] = el.value;
+          if (field === 'embed') render();
+          dirty = true;
+          setSaveStatus('Unsaved changes');
+        });
+      });
+      list.querySelectorAll('[data-add-cat]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var ci = +btn.dataset.addCat;
+          siteData[ci].frames.push({embed: '', title: 'Project title', desc: 'Short line on the brief, the footage, and the edit approach for this piece.'});
+          render();
+          dirty = true;
+          setSaveStatus('Unsaved changes');
+        });
+      });
+      list.querySelectorAll('[data-remove-cat]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var ci = +btn.dataset.removeCat, fi = +btn.dataset.removeFrame;
+          siteData[ci].frames.splice(fi, 1);
+          render();
+          dirty = true;
+          setSaveStatus('Unsaved changes');
+        });
+      });
+    }
+  }
+
+  function setSaveStatus(text) {
+    document.getElementById('saveStatus').textContent = text || '';
+  }
+
+  function buildFullHTML() {
+    var doc = document.documentElement.cloneNode(true);
+    doc.querySelector('#site-data').textContent = JSON.stringify(siteData);
+    doc.querySelector('body').classList.remove('edit-mode');
+    var toggle = doc.querySelector('#editToggle');
+    if (toggle) toggle.classList.remove('active');
+    var list = doc.querySelector('#work-list');
+    if (list) {
+      var tmp = editMode; editMode = false;
+      // render display markup into the clone directly
+      var displayHtml = (function () {
+        var save = document.getElementById('work-list').innerHTML;
+        render();
+        var out = document.getElementById('work-list').innerHTML;
+        document.getElementById('work-list').innerHTML = save;
+        return out;
+      })();
+      editMode = tmp;
+      list.innerHTML = displayHtml;
+    }
+    return '<!DOCTYPE html>\n' + doc.outerHTML;
+  }
+
+  var editToggle = document.getElementById('editToggle');
+  var saveBtn = document.getElementById('saveBtn');
+
+  editToggle.addEventListener('click', function () {
+    if (editMode && dirty) {
+      var ok = window.confirm('You have unsaved changes. Leave edit mode and discard them?');
+      if (!ok) return;
+      dirty = false;
+    }
+    editMode = !editMode;
+    document.body.classList.toggle('edit-mode', editMode);
+    editToggle.classList.toggle('active', editMode);
+    editToggle.textContent = editMode ? 'Exit edit mode' : 'Edit page';
+    setSaveStatus('');
+    render();
+  });
+
+  window.addEventListener('beforeunload', function (e) {
+    if (dirty) {
+      e.preventDefault();
+      e.returnValue = '';
+      return '';
+    }
+  });
+
+  saveBtn.addEventListener('click', function () {
+    if (!window.claude || typeof window.claude.use !== 'function') {
+      setSaveStatus('Saving is unavailable in this view.');
+      return;
+    }
+    saveBtn.disabled = true;
+    setSaveStatus('Saving…');
+    window.claude.use('artifact').then(function (artifact) {
+      if (!artifact) { setSaveStatus('Saving is unavailable in this view.'); saveBtn.disabled = false; return; }
+      var html = buildFullHTML();
+      return artifact.publish(html).then(function () {
+        dirty = false;
+        setSaveStatus('Saved — reloading…');
+      }, function (err) {
+        var code = err && err.code;
+        if (code === 'not_writer' || code === 'not_granted') {
+          setSaveStatus("You don't have edit access to this page.");
+        } else if (code === 'conflict') {
+          setSaveStatus('Someone just saved changes — reloading with those.');
+        } else {
+          setSaveStatus('Could not save — try again.');
+        }
+        saveBtn.disabled = false;
+      });
+    });
+  });
+
+  render();
+
+  if (window.claude && typeof window.claude.use === 'function') {
+    window.claude.use('user').then(function (user) {
+      if (!user) return;
+      return user.canEdit();
+    }).then(function (result) {
+      canEdit = !!result;
+      if (canEdit) editToggle.classList.add('visible');
+    }).catch(function () {});
+  }
+})();
+</script>
+
+
+
+</body></html>

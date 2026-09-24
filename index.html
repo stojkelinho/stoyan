@@ -1,26 +1,27 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light" style="color-scheme: light;"><head>
+<html lang="en">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nikola Stojanović — Video Editor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@1,600&amp;family=Archivo+Black&amp;family=Manrope:wght@400;500;600;700;800&family=Nunito:wght@700;800&amp;display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@1,600&family=Archivo+Black&family=Manrope:wght@400;500;600;700;800&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
 <style>
-    :root {
-        --bg: #101820;
-        --bg-outer: #0B1218;
-        --card-bg: #0B1218;
-        --about-bg: #2E5372;
-        --surface: #172230;
-        --text: #E8EEF3;
-        --text-secondary: #8CA3B3;
-        --accent: #7FB3A0;
-        --hairline: #253645;
-        box-sizing: border-box;
-        padding-top: env(safe-area-inset-top, 0px);
-        padding-bottom: env(safe-area-inset-bottom, 0px);
-    }
+  :root {
+    --bg: #101820;
+    --bg-outer: #0B1218;
+    --card-bg: #0B1218;
+    --about-bg: #2E5372;
+    --surface: #172230;
+    --text: #E8EEF3;
+    --text-secondary: #8CA3B3;
+    --accent: #7FB3A0;
+    --hairline: #253645;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
   html { scroll-padding-top: env(safe-area-inset-top, 0px); }
   * { box-sizing: border-box; }
   body {
@@ -105,7 +106,8 @@
   .hero {
     padding: 96px 0 48px;
     border-bottom: 1px solid rgba(232, 238, 243, 0.12);
-  }  .hero h1 {
+  }
+  .hero h1 {
     font-family: 'Fraunces', serif;
     font-weight: 600;
     font-style: italic;
@@ -155,17 +157,17 @@
     margin: 16px 0 0;
   }
   .about p:first-of-type { margin-top: 0; }
-    .about .cta-line {
-        font-family: 'Nunito Bold', sans-serif;
-        color: var(--text);
-        font-weight: 400;
-        font-size: clamp(55px, 3.6vw, 38px);
-        text-transform: uppercase;
-        letter-spacing: 0.01em;
-        text-align: center;
-        max-width: none;
-        margin-top: 60px;
-    }
+  .about .cta-line {
+    font-family: 'Nunito', sans-serif;
+    color: var(--text);
+    font-weight: 800;
+    font-size: clamp(30px, 3.6vw, 38px);
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    text-align: center;
+    max-width: none;
+    margin-top: 60px;
+  }
 
   /* Projects */
   .projects {
@@ -415,7 +417,7 @@
   }
 </style>
 </head>
-<body class="">
+<body>
 
 <div class="center-panel"></div>
 <div class="edge-guide left"></div>
@@ -432,7 +434,7 @@
       <a href="#about">About</a>
       <a href="#work">Work</a>
       <a href="#contact">Contact</a>
-      <button class="edit-toggle visible" id="editToggle" type="button">Exit edit mode</button>
+      <button class="edit-toggle" id="editToggle" type="button">Edit page</button>
     </nav>
   </header>
 </div>
@@ -458,7 +460,7 @@
       <span>Videos to be added</span>
     </div>
 
-    <div id="work-list"><div class="category-head">Talking Head<button type="button" class="add-video-btn" data-add-cat="0">+ Add video</button></div><div class="frame"><div class="timecode">00:01</div><div class="frame-media empty">Video coming soon</div><div class="frame-body"><h3 class="frame-title">Marko V on YouTube Channel growth</h3><p class="frame-desc">Short line on the brief, the footage, and the edit approach for this piece.</p></div></div><div class="frame"><div class="timecode">00:02</div><div class="frame-media empty">Video coming soon</div><div class="frame-body"><h3 class="frame-title">Project title</h3><p class="frame-desc">Short line on the brief, the footage, and the edit approach for this piece.</p></div></div><div class="category-head">Podcast Clips<button type="button" class="add-video-btn" data-add-cat="1">+ Add video</button></div><div class="frame"><div class="timecode">00:03</div><div class="frame-media empty">Video coming soon</div><div class="frame-body"><h3 class="frame-title">Project title</h3><p class="frame-desc">Short line on the brief, the footage, and the edit approach for this piece.</p></div></div><div class="frame"><div class="timecode">00:04</div><div class="frame-media empty">Video coming soon</div><div class="frame-body"><h3 class="frame-title">Project title</h3><p class="frame-desc">Short line on the brief, the footage, and the edit approach for this piece.</p></div></div><div class="category-head">Voiceovers<button type="button" class="add-video-btn" data-add-cat="2">+ Add video</button></div><div class="frame"><div class="timecode">00:05</div><div class="frame-media empty">Video coming soon</div><div class="frame-body"><h3 class="frame-title">Project title</h3><p class="frame-desc">Short line on the brief, the footage, and the edit approach for this piece.</p></div></div><div class="frame"><div class="timecode">00:06</div><div class="frame-media empty">Video coming soon</div><div class="frame-body"><h3 class="frame-title">Project title</h3><p class="frame-desc">Short line on the brief, the footage, and the edit approach for this piece.</p></div></div></div>
+    <div id="work-list"></div>
 
     <div class="save-bar">
       <span class="save-status" id="saveStatus"></span>
@@ -475,9 +477,11 @@
   </section>
 
   <footer>
-    © 2026 Nikola Stojanović. 
+    &copy; 2026 Nikola Stojanović.
   </footer>
 </div>
+
+<script id="site-data" type="application/json">
 [
   {
     "category": "Talking Head",
@@ -627,7 +631,6 @@
     var list = doc.querySelector('#work-list');
     if (list) {
       var tmp = editMode; editMode = false;
-      // render display markup into the clone directly
       var displayHtml = (function () {
         var save = document.getElementById('work-list').innerHTML;
         render();
@@ -707,6 +710,5 @@
 })();
 </script>
 
-
-
-</body></html>
+</body>
+</html>
